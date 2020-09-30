@@ -1,0 +1,38 @@
+FROM rocker/tidyverse:latest
+MAINTAINER "Carlos Zambrana-Torrelio" zambrana@ecohealthalliance.org
+## Installs to help install
+RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages --allow-unauthenticated --no-install-recommends --no-upgrade \
+    openssh-server \
+    libgsl-dbg \
+    libgsl-dev \
+    libglpk40 \ 
+    curl \
+    htop \
+    libfftw3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/
+### R config and packages
+RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
+  && echo "CXXFLAGS=-w"  >> /usr/local/lib/R/etc/Makevars.site \
+  && echo "MAKEFLAGS=-j$(nproc)"  >> /usr/local/lib/R/etc/Makevars.site \
+## install from github 
+  && installGithub.r -d s-u/unixtools \
+## Compile R packages
+  && install2.r --error --skipinstalled \
+  countrycode \
+  easyPubMed \
+  gt \
+  here \
+  janitor \
+  lemon \
+  patchwork \
+  piggyback \
+  prodigenr \
+  scales \
+  styler \
+  suppdata \
+  taxadb \
+  && installGithub.r ecohealthalliance/lemis \
+  && R -e "update.packages(ask = FALSE)" \
+  && R -e "lemis::lemis_data()" \
+  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /root/tmp/downloaded_packages
