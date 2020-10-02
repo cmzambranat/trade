@@ -1,22 +1,22 @@
 version: 2
 jobs:
- meta:
+ trade:
    machine: true
    steps:
      - checkout
      - run:
-           name: "Build Meta analysis Container"
+           name: "Build trade analysis container"
            command: |
-            docker build -f Dockerfile.meta -t cmzambranat/meta .
+            docker build -f Dockerfile.trade -t cmzambranat/trade .
      - deploy:
            name: "Push to Docker Hub"
            command: |
               if [ "${CIRCLE_BRANCH}" == "master" ]; then
                 docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-                docker push cmzambranat/meta
+                docker push cmzambranat/trade
               fi
 workflows:
    version: 2
    commit:
      jobs:
-       - meta
+       - trade
