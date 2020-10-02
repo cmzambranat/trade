@@ -20,6 +20,7 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
 ## Compile R packages
   && install2.r --error --skipinstalled \
   countrycode \
+  circlize \
   easyPubMed \
   gt \
   here \
@@ -32,6 +33,8 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   styler \
   suppdata \
   taxadb \
-  && R -e "devtools::install_github('ropensci/citesdb'); \
-           citesdb::cites_db_download()" \
+  tmap \
+  leaflet \
+  leaflet.extras2 \
+  && R -e "devtools::install_github('ropensci/citesdb')" \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /root/tmp/downloaded_packages
