@@ -32,7 +32,7 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   styler \
   suppdata \
   taxadb \
-  && R -e "devtools::install_version("dplyr", version = ""0.8.5"", repos = ""http://cran.us.r-project.org"")" \
+  && R -e "devtools::install_version('dplyr', version = '0.8.5', repos = 'http://cran.us.r-project.org')" \
   && installGithub.r ecohealthalliance/lemis \
   && R -e "update.packages(ask = FALSE)" \
   && R -e "lemis::lemis_data()" \
