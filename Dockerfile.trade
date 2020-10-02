@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:3.6.2
+FROM rocker/tidyverse:latest
 MAINTAINER "Carlos Zambrana-Torrelio" zambrana@ecohealthalliance.org
 ## Installs to help install
 RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages --allow-unauthenticated --no-install-recommends --no-upgrade \
@@ -32,7 +32,7 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   styler \
   suppdata \
   taxadb \
-  && installGithub.r krlmlr/fstplyr \
+  && R -e "devtools::install_version("dplyr", version = "0.8.5", repos = "http://cran.us.r-project.org")" \
   && installGithub.r ecohealthalliance/lemis \
   && R -e "update.packages(ask = FALSE)" \
   && R -e "lemis::lemis_data()" \
