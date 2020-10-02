@@ -1,22 +1,26 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
 jobs:
- meta:
-   machine: true
-   steps:
-     - checkout
-     - run:
-           name: "Build Meta analysis Container"
-           command: |
-            docker build -f Dockerfile.meta -t cmzambranat/meta .
-     - deploy:
-           name: "Push to Docker Hub"
-           command: |
-              if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-                docker push cmzambranat/meta
-              fi
-workflows:
-   version: 2
-   commit:
-     jobs:
-       - meta
+  build:
+    docker:
+      # specify the version
+      - image: circleci/golang:1.9
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    #### TEMPLATE_NOTE: go expects specific checkout path representing url
+    #### expecting it in the form of
+    ####   /go/src/github.com/circleci/go-tool
+    ####   /go/src/bitbucket.org/circleci/go-tool
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: go get -v -t -d ./...
+      - run: go test -v ./...
