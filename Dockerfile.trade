@@ -34,7 +34,6 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   taxadb \
   && R -e "devtools::install_version('dplyr', version = '0.8.5', repos = 'http://cran.us.r-project.org'); \
            devtools::install_github('ecohealthalliance/lemis', upgrade = FALSE);
-           lemis::lemis_data();
            devtools::install_github('ropensci/citesdb');
            citesdb::cites_db_download()" \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /root/tmp/downloaded_packages
