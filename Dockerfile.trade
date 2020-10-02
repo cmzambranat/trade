@@ -32,6 +32,7 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   styler \
   suppdata \
   taxadb \
+  && installGithub.r krlmlr/fstplyr \
   && installGithub.r ecohealthalliance/lemis \
   && R -e "update.packages(ask = FALSE)" \
   && R -e "lemis::lemis_data()" \
