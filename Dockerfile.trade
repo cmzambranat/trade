@@ -42,6 +42,5 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   tmap \
   leaflet \
   leaflet.extras2 \
-  && Rscript -e "devtools::install_github('ropensci/citesdb')"
-           
+  && Rscript -e "devtools::install_github('ropensci/citesdb')" \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /root/tmp/downloaded_packages
