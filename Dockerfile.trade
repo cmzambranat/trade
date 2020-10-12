@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essen
     curl \
     htop \
     libfftw3-dev \
+    wget \
   && RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-1.4.904-amd64.deb"
   && wget -q $RSTUDIO_URL \
   && dpkg -i rstudio-server-*-amd64.deb \
