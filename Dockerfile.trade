@@ -43,4 +43,5 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   leaflet \
   leaflet.extras2 \
   && Rscript -e "devtools::install_github('ropensci/citesdb')" \
+  && Rscript -e "devtools::install_version('dplyr', version = '0.8.5', repos = 'http://cran.us.r-project.org')" \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /root/tmp/downloaded_packages
