@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:latest
+FROM rocker/verse:latest
 MAINTAINER "Carlos Zambrana-Torrelio" zambrana@ecohealthalliance.org
 ## Installs to help install
 RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages --allow-unauthenticated --no-install-recommends --no-upgrade \
@@ -9,8 +9,12 @@ RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essen
     curl \
     htop \
     libfftw3-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/
+  && RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-1.4.904-amd64.deb"
+  && wget -q $RSTUDIO_URL \
+  && dpkg -i rstudio-server-*-amd64.deb \
+  && rm rstudio-server-*-amd64.deb \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/
 ### R config and packages
 RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   && echo "CXXFLAGS=-w"  >> /usr/local/lib/R/etc/Makevars.site \
@@ -23,6 +27,7 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   circlize \
   easyPubMed \
   gt \
+  ggthemes \
   here \
   janitor \
   lemon \
@@ -36,5 +41,6 @@ RUN echo "CFLAGS=-w" >> /usr/local/lib/R/etc/Makevars.site \
   tmap \
   leaflet \
   leaflet.extras2 \
-  && R -e "devtools::install_github('ropensci/citesdb')" \
+  && R -e "devtools::install_github('ropensci/citesdb');
+           devtools::install_version('dplyr', version = '0.8.5', repos = 'http://cran.us.r-project.org')" \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /root/tmp/downloaded_packages
